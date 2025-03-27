@@ -45,4 +45,4 @@ public class MyApplication extends Application {
         return FirebaseDatabase.getInstance().getReference("/food/" + foodId + "/quantity");
     }
 }
-// ạdkasjdnasdaaaaaa
+
