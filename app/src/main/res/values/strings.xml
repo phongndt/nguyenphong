@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">duan1</string>
+    <string name="app_name">Cinema manager</string>
 
     <string name="nav_home">Trang chủ</string>
     <string name="nav_booking">Lịch sử đặt vé</string>
