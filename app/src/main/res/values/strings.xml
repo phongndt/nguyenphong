@@ -19,6 +19,7 @@
     <string name="hint_password_new">Mật khẩu mới…</string>
     <string name="hint_password_confirm">Xác nhận mật khẩu mới…</string>
     <string name="hint_name">Tên…</string>
+    <string name="hint_name_category">Tên the loai…</string>
     <string name="hint_id">ID…</string>
     <string name="hint_price">Giá…</string>
     <string name="hint_quantity">Số lượng…</string>

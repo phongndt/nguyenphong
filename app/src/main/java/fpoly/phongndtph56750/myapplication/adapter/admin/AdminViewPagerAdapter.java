@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import fpoly.phongndtph56750.myapplication.fragment.AdminBookingFragment;
-import fpoly.phongndtph56750.myapplication.fragment.AdminCategoryFragment;
-import fpoly.phongndtph56750.myapplication.fragment.AdminFoodFragment;
-import fpoly.phongndtph56750.myapplication.fragment.AdminHomeFragment;
-import fpoly.phongndtph56750.myapplication.fragment.AdminManageFragment;
+import fpoly.phongndtph56750.myapplication.fragment.admin.AdminBookingFragment;
+import fpoly.phongndtph56750.myapplication.fragment.admin.AdminCategoryFragment;
+import fpoly.phongndtph56750.myapplication.fragment.admin.AdminFoodFragment;
+import fpoly.phongndtph56750.myapplication.fragment.admin.AdminHomeFragment;
+import fpoly.phongndtph56750.myapplication.fragment.admin.AdminManageFragment;
 
 
 public class AdminViewPagerAdapter extends FragmentStateAdapter {
