@@ -73,9 +73,9 @@
 <!--            android:name=".activity.SearchActivity"-->
 <!--            android:exported="false" />-->
 
-<!--        <activity-->
-<!--            android:name=".activity.CategoryActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:exported="false" />
 
         <activity
             android:name=".activity.ConfirmBookingActivity"

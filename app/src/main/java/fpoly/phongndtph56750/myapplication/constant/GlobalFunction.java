@@ -1,5 +1,6 @@
 package fpoly.phongndtph56750.myapplication.constant;
 
+
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
@@ -8,27 +9,25 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Movie;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 
-import java.io.Serializable;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import fpoly.phongndtph56750.myapplication.activity.MainActivity;
-import fpoly.phongndtph56750.myapplication.activity.admin.AdminMainActivity;
 import fpoly.phongndtph56750.myapplication.activity.MovieDetailActivity;
+import fpoly.phongndtph56750.myapplication.activity.admin.AdminMainActivity;
 import fpoly.phongndtph56750.myapplication.listener.IGetDateListener;
+import fpoly.phongndtph56750.myapplication.model.Movie;
 import fpoly.phongndtph56750.myapplication.model.RoomFirebase;
 import fpoly.phongndtph56750.myapplication.model.Seat;
 import fpoly.phongndtph56750.myapplication.model.TimeFirebase;
@@ -76,7 +75,7 @@ public class GlobalFunction {
 
     public static void goToMovieDetail(Context context, Movie movie) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ConstantKey.KEY_INTENT_MOVIE_OBJECT, (Serializable) movie);
+        bundle.putSerializable(ConstantKey.KEY_INTENT_MOVIE_OBJECT,  movie);
         GlobalFunction.startActivity(context, MovieDetailActivity.class, bundle);
     }
 
@@ -175,4 +174,7 @@ public class GlobalFunction {
             e.printStackTrace();
         }
     }
+
+
+
 }
