@@ -1,92 +1,62 @@
 package fpoly.phongndtph56750.myapplication.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import org.greenrobot.eventbus.EventBus;
-
 import fpoly.phongndtph56750.myapplication.R;
-import fpoly.phongndtph56750.myapplication.adapter.admin.AdminViewPagerAdapter;
-import fpoly.phongndtph56750.myapplication.databinding.ActivityAdminMainBinding;
-import fpoly.phongndtph56750.myapplication.event.ResultQrCodeEvent;
+import fpoly.phongndtph56750.myapplication.adapter.MyViewPagerAdapter;
+import fpoly.phongndtph56750.myapplication.databinding.ActivityMainBinding;
 
 
-@SuppressLint("NonConstantResourceId")
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityAdminMainBinding activityAdminMainBinding = ActivityAdminMainBinding.inflate(getLayoutInflater());
-        setContentView(activityAdminMainBinding.getRoot());
+        ActivityMainBinding activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(activityMainBinding.getRoot());
 
-        AdminViewPagerAdapter adminViewPagerAdapter = new AdminViewPagerAdapter(this);
-        activityAdminMainBinding.viewpager2.setAdapter(adminViewPagerAdapter);
-        activityAdminMainBinding.viewpager2.setUserInputEnabled(false);
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this);
+        activityMainBinding.viewpager2.setAdapter(myViewPagerAdapter);
+        activityMainBinding.viewpager2.setUserInputEnabled(false);
 
-        activityAdminMainBinding.viewpager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        activityMainBinding.viewpager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 switch (position) {
                     case 0:
-                        activityAdminMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_admin_category).setChecked(true);
-                        activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_category));
+                        activityMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_home).setChecked(true);
+                        activityMainBinding.tvTitle.setText(getString(R.string.nav_home));
                         break;
 
                     case 1:
-                        activityAdminMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_admin_food_drink).setChecked(true);
-                        activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_food_drink));
+                        activityMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_booking).setChecked(true);
+                        activityMainBinding.tvTitle.setText(getString(R.string.nav_booking));
                         break;
 
                     case 2:
-                        activityAdminMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_admin_movie).setChecked(true);
-                        activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_movie));
-                        break;
-
-                    case 3:
-                        activityAdminMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_admin_booking).setChecked(true);
-                        activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_booking));
-                        break;
-
-                    case 4:
-                        activityAdminMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_admin_manage).setChecked(true);
-                        activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_manage));
+                        activityMainBinding.bottomNavigation.getMenu().findItem(R.id.nav_user).setChecked(true);
+                        activityMainBinding.tvTitle.setText(getString(R.string.nav_user));
                         break;
                 }
             }
         });
 
-        activityAdminMainBinding.bottomNavigation.setOnItemSelectedListener(item -> {
+        activityMainBinding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_admin_category) {
-                activityAdminMainBinding.viewpager2.setCurrentItem(0);
-                activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_category));
-            } else if (id == R.id.nav_admin_food_drink) {
-                activityAdminMainBinding.viewpager2.setCurrentItem(1);
-                activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_food_drink));
-            } else if (id == R.id.nav_admin_movie) {
-                activityAdminMainBinding.viewpager2.setCurrentItem(2);
-                activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_movie));
-            } else if (id == R.id.nav_admin_booking) {
-                activityAdminMainBinding.viewpager2.setCurrentItem(3);
-                activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_booking));
-            } else if (id == R.id.nav_admin_manage) {
-                activityAdminMainBinding.viewpager2.setCurrentItem(4);
-                activityAdminMainBinding.tvTitle.setText(getString(R.string.nav_admin_manage));
+            if (id == R.id.nav_home) {
+                activityMainBinding.viewpager2.setCurrentItem(0);
+                activityMainBinding.tvTitle.setText(getString(R.string.nav_home));
+            } else if (id == R.id.nav_booking) {
+                activityMainBinding.viewpager2.setCurrentItem(1);
+                activityMainBinding.tvTitle.setText(getString(R.string.nav_booking));
+            } else if (id == R.id.nav_user) {
+                activityMainBinding.viewpager2.setCurrentItem(2);
+                activityMainBinding.tvTitle.setText(getString(R.string.nav_user));
             }
             return true;
         });
@@ -107,18 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (intentResult != null && intentResult.getContents() != null) {
-            EventBus.getDefault().post(new ResultQrCodeEvent(intentResult.getContents()));
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         showDialogLogout();
