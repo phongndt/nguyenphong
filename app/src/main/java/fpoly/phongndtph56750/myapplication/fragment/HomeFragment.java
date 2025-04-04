@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle saveInsstanceState) {
+    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle saveInsstanceState) {
         mFragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container,false);
 
         getListMovies();
