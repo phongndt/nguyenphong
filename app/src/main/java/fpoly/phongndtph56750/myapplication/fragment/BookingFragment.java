@@ -51,16 +51,17 @@ public class BookingFragment extends Fragment {
     }
 
     public void getListBookingHistory(boolean isUsed){
-        if(getActivity()== null){
+        if(getActivity() == null || DataStoreManager.getUser() == null){
             return;
         }
+
         MyApplication.get(getActivity()).getBookingDatabaseReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (mListBookingHistory!=null){
-                    mListBookingHistory.clear();
-                }else {
+                if (mListBookingHistory == null){
                     mListBookingHistory = new ArrayList<>();
+                } else {
+                    mListBookingHistory.clear();
                 }
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -72,10 +73,9 @@ public class BookingFragment extends Fragment {
                             if (isExpire || bookingHistory.isUsed()){
                                 mListBookingHistory.add(0, bookingHistory);
                             }
-                        }else {
+                        } else {
                             if (!isExpire && !bookingHistory.isUsed()){
                                 mListBookingHistory.add(0, bookingHistory);
-
                             }
                         }
                     }
@@ -91,23 +91,28 @@ public class BookingFragment extends Fragment {
     }
 
     private void displayListBookingHistory(){
-        if (getActivity()==null){
+        if (getActivity() == null){
             return;
         }
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mFragmentBookingBinding.rcvBookingHistory.setLayoutManager(linearLayoutManager);
 
-        mBookingHistoryAdapter = new BookingHistoryAdapter(getActivity(),false, mListBookingHistory, this::showDialogConfirmBooking, null);
+        mBookingHistoryAdapter = new BookingHistoryAdapter(getActivity(), false, mListBookingHistory, this::showDialogConfirmBooking, null);
         mFragmentBookingBinding.rcvBookingHistory.setAdapter(mBookingHistoryAdapter);
     }
 
     private void showDialogConfirmBooking(String id){
-        Dialog dialog =new Dialog(getActivity());
+        if (getActivity() == null) return;
+
+        Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_qr_code);
         Window window = dialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        if (window != null) {
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
         dialog.setCancelable(false);
 
         // Get view
@@ -131,6 +136,8 @@ public class BookingFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mBookingHistoryAdapter != null) mBookingHistoryAdapter.release();
+        if (mBookingHistoryAdapter != null) {
+            mBookingHistoryAdapter.release();
+        }
     }
 }
