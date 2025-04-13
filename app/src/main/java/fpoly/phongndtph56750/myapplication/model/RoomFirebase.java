@@ -18,6 +18,11 @@ public class RoomFirebase implements Serializable {
         this.times = times;
     }
 
+    // 👇 Constructor mới bạn cần thêm
+    public RoomFirebase(String title) {
+        this.title = title;
+    }
+
     public int getId() {
         return id;
     }

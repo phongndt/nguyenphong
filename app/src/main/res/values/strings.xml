@@ -24,6 +24,8 @@
     <string name="hint_price">Giá…</string>
     <string name="hint_quantity">Số lượng…</string>
     <string name="hint_description">Mô tả…</string>
+    <string name="date">ngày hết hạn</string>
+    <string name="day">ngày bắt đầu</string>
     <string name="hint_image">Link ảnh…</string>
     <string name="hint_image_banner">Link ảnh banner…</string>
     <string name="hint_url">Link video…</string>
@@ -40,6 +42,7 @@
     <string name="sign_in">Đăng Nhập</string>
     <string name="forgot_password">Quên mật khẩu</string>
     <string name="change_password">Đổi mật khẩu</string>
+    <string name="discount_code">mã giảm giá</string>
     <string name="report">Báo cáo doanh thu</string>
     <string name="sign_out">Đăng xuất</string>
     <string name="history_booking">Lịch sử đặt vé</string>
@@ -54,6 +57,8 @@
     <string name="room_movie">Phòng chiếu:</string>
     <string name="time_movie">Giờ chiếu:</string>
     <string name="add_movie_title">Thêm phim mới</string>
+    <string name="name_voucher">Thêm voucher mới</string>
+    <string name="name_fix_voucher">Sửa voucher</string>
     <string name="edit_movie_title">Chỉnh sửa thông tin phim</string>
     <string name="movie_detail">Chi tiết phim </string>
     <string name="all_room">Tất cả phòng </string>
@@ -93,14 +98,19 @@
     <string name="confirm">Xác nhận</string>
     <string name="payment_method">Phương thức thanh toán</string>
     <string name="label_payment">Thanh toán:</string>
+    <string name="label_voucher">Voucher:</string>
     <string name="label_date_create">Ngày:</string>
     <string name="quantity_stock">Hiện tại còn:</string>
     <string name="request_qr">Quét QR Code</string>
     <string name="revenue">Doanh thu</string>
+    <string name="discount">Mã giảm giá</string>
     <string name="label_total_revenue">Tổng doanh thu:</string>
     <string name="column_stt">STT</string>
     <string name="column_movie_name">Tên phim</string>
+    <string name="column_discount_name">Tên mã</string>
     <string name="column_quantity">Số lượng vé</string>
+    <string name="time_discount">Ngày tạo</string>
+    <string name="expired_discount">Ngày hết hạn</string>
     <string name="column_total_amount">Tổng Tiền</string>
     <string name="label_booking_used">Vé đã sử dụng</string>
     <string name="label_confirm_booking">Xác nhận vé</string>
@@ -108,6 +118,7 @@
     <string name="action_ok">Đồng ý</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_add">Thêm</string>
+    <string name="action_fix">Sửa</string>
     <string name="action_edit">Chỉnh sửa</string>
 
     <string name="msg_confirm_login_another_device">Bạn có chắc chắn muốn thoát ứng dụng?</string>

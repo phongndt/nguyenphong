@@ -15,9 +15,31 @@ public class BookingHistory {
     private String user;
     private boolean used;
 
+    // Thêm trường voucher
+    private String voucherCode; // Mã voucher
+    private int voucherDiscount; // Mức giảm giá voucher
+
+    // Constructor mặc định không tham số
     public BookingHistory() {
+        // Khởi tạo các giá trị mặc định cho các thuộc tính
+        this.id = 0;
+        this.movieId = 0;
+        this.name = "";
+        this.date = "";
+        this.room = "";
+        this.time = "";
+        this.count = "";
+        this.seats = "";
+        this.foods = "";
+        this.payment = "";
+        this.total = 0;
+        this.user = "";
+        this.used = false;
+        this.voucherCode = "";
+        this.voucherDiscount = 0;
     }
 
+    // Constructor có tham số
     public BookingHistory(long id, long movieId, String name, String date, String room, String time,
                           String count, String seats, String foods, String payment,
                           int total, String user, boolean used) {
@@ -34,8 +56,11 @@ public class BookingHistory {
         this.total = total;
         this.user = user;
         this.used = used;
+        this.voucherCode = voucherCode;
+        this.voucherDiscount = voucherDiscount;
     }
 
+    // Getter và Setter cho các trường
     public long getId() {
         return id;
     }
@@ -138,5 +163,22 @@ public class BookingHistory {
 
     public void setUsed(boolean used) {
         this.used = used;
+    }
+
+    // Getter and Setter cho voucherCode và voucherDiscount
+    public String getVoucherCode() {
+        return voucherCode;
+    }
+
+    public void setVoucherCode(String voucherCode) {
+        this.voucherCode = voucherCode;
+    }
+
+    public int getVoucherDiscount() {
+        return voucherDiscount;
+    }
+
+    public void setVoucherDiscount(int voucherDiscount) {
+        this.voucherDiscount = voucherDiscount;
     }
 }

@@ -49,6 +49,8 @@ public class GlobalFunction {
         context.startActivity(intent);
     }
 
+
+
     public static String getTextSearch(String input) {
         String nfdNormalizedString = Normalizer.normalize(input, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
@@ -100,6 +102,8 @@ public class GlobalFunction {
         list.add(new TimeFirebase(6, "2PM - 3PM", getListSeats()));
         return list;
     }
+
+    //public static List<DiscountCodeBase>
 
     public static List<Seat> getListSeats() {
         List<Seat> list = new ArrayList<>();

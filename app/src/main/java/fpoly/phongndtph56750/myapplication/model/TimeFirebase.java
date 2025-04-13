@@ -12,6 +12,10 @@ public class TimeFirebase implements Serializable {
     public TimeFirebase() {
     }
 
+    public TimeFirebase(String startDate, String endDate) {
+        this.title = startDate + " - " + endDate;
+        this.seats = null; // hoặc new ArrayList<>()
+    }
     public TimeFirebase(int id, String title, List<Seat> seats) {
         this.id = id;
         this.title = title;

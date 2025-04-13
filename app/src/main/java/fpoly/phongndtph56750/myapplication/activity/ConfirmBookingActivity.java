@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ import fpoly.phongndtph56750.myapplication.adapter.RoomAdapter;
 import fpoly.phongndtph56750.myapplication.adapter.SeatAdapter;
 import fpoly.phongndtph56750.myapplication.adapter.SelectPaymentAdapter;
 import fpoly.phongndtph56750.myapplication.adapter.TimeAdapter;
+import fpoly.phongndtph56750.myapplication.adapter.VoucherAdapter;
 import fpoly.phongndtph56750.myapplication.constant.ConstantKey;
 import fpoly.phongndtph56750.myapplication.constant.GlobalFunction;
 import fpoly.phongndtph56750.myapplication.constant.PayPalConfig;
@@ -58,6 +60,7 @@ import fpoly.phongndtph56750.myapplication.model.Seat;
 import fpoly.phongndtph56750.myapplication.model.SeatLocal;
 import fpoly.phongndtph56750.myapplication.model.SlotTime;
 import fpoly.phongndtph56750.myapplication.model.TimeFirebase;
+import fpoly.phongndtph56750.myapplication.model.Voucher;
 import fpoly.phongndtph56750.myapplication.prefs.DataStoreManager;
 import fpoly.phongndtph56750.myapplication.util.StringUtil;
 
@@ -93,6 +96,17 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     private BookingHistory mBookingHistory;
 
     private List<Food> mListFoodNeedUpdate;
+
+    private Spinner spnVoucher;
+    private List<Voucher> voucherList = new ArrayList<>();
+    private VoucherAdapter voucherAdapter;
+    private Voucher mVoucherSelected = null;
+
+    private int totalSeatPrice = 0;
+    private int totalFoodPrice = 0;
+
+    private TextView tvTotalPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -657,5 +671,90 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             // Send result payment
             if (isPaymentSuccess) sendRequestOrder();
         }
+    }
+
+    private void initVoucherSpinner() {
+        spnVoucher = findViewById(R.id.spn_voucher);
+
+        voucherAdapter = new VoucherAdapter(this, android.R.layout.simple_spinner_item, voucherList);
+        voucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnVoucher.setAdapter(voucherAdapter);
+
+        // Load voucher từ Firebase
+        MyApplication.get(this).getVoucherDatabaseReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                voucherList.clear();
+                voucherList.add(new Voucher("-1", "Không sử dụng", null, "inactive", 0));
+                // Option mặc định
+
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    Voucher voucher = data.getValue(Voucher.class);
+                    if (voucher != null && voucher.isStatus()) {
+                        voucherList.add(voucher);
+                    }
+                }
+
+                voucherAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Voucher", "Failed to load vouchers: " + error.getMessage());
+            }
+        });
+
+        spnVoucher.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Voucher selected = voucherList.get(position);
+                if (selected.getId() != null && !selected.getId().equals("-1")) {
+                    mVoucherSelected = selected;
+                } else {
+                    mVoucherSelected = null;
+                }
+
+
+                updateTotalAmount(); // Tính lại tổng tiền
+            }
+
+            private void updateTotalAmount() {
+                int total = totalSeatPrice + totalFoodPrice;
+
+                if (mVoucherSelected != null) {
+                    total -= mVoucherSelected.getDiscount(); // Giảm giá nếu có voucher
+                }
+
+                if (total < 0) total = 0;
+
+                // Hiển thị lại tổng tiền trên TextView
+                tvTotalPrice.setText(total + " VNĐ");
+            }
+
+
+            private int getTotalAmount() {
+                int countBooking = getListSeatChecked().size();
+                int priceMovie = countBooking * mMovie.getPrice();
+
+                int priceFoodDrink = 0;
+                List<Food> listFoodSelected = getListFoodSelected();
+                for (Food food : listFoodSelected) {
+                    priceFoodDrink += food.getPrice() * food.getCount();
+                }
+
+                int total = priceMovie + priceFoodDrink;
+
+                if (mVoucherSelected != null) {
+                    total -= mVoucherSelected.getDiscount();
+                    if (total < 0) total = 0;
+                }
+
+                return total;
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 }

@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import fpoly.phongndtph56750.myapplication.R;
 import fpoly.phongndtph56750.myapplication.activity.ChangePasswordActivity;
 import fpoly.phongndtph56750.myapplication.activity.SignInActivity;
 import fpoly.phongndtph56750.myapplication.activity.admin.AdminRevenueActivity;
+import fpoly.phongndtph56750.myapplication.activity.admin.AdminVoucherActivity;
 import fpoly.phongndtph56750.myapplication.constant.GlobalFunction;
 import fpoly.phongndtph56750.myapplication.databinding.FragmentAdminManageBinding;
 import fpoly.phongndtph56750.myapplication.prefs.DataStoreManager;
@@ -35,6 +35,7 @@ public class AdminManageFragment extends Fragment {
         fragmentAdminManageBinding.layoutReport.setOnClickListener(v -> onClickReport());
         fragmentAdminManageBinding.layoutSignOut.setOnClickListener(v -> onClickSignOut());
         fragmentAdminManageBinding.layoutChangePassword.setOnClickListener(v -> onClickChangePassword());
+        fragmentAdminManageBinding.layoutDiscountCode.setOnClickListener(v -> onClickDiscountCode());
 
         return fragmentAdminManageBinding.getRoot();
     }
@@ -45,6 +46,10 @@ public class AdminManageFragment extends Fragment {
 
     private void onClickChangePassword() {
         GlobalFunction.startActivity(getActivity(), ChangePasswordActivity.class);
+    }
+
+    private void onClickDiscountCode() {
+        GlobalFunction.startActivity(getActivity(), AdminVoucherActivity.class);
     }
 
     private void onClickSignOut() {

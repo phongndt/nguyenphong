@@ -220,6 +220,24 @@
                 android:background="@color/transparent"
                 android:scrollbars="none" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_20"
+                android:text="@string/label_voucher"
+                android:textColor="@color/teal_700"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spn_voucher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_5"
+                android:background="@color/transparent"
+                android:scrollbars="none" />
+
+
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="match_parent"

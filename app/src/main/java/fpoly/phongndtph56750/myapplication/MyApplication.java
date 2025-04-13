@@ -43,4 +43,9 @@ public class MyApplication extends Application {
     public DatabaseReference getQuantityDatabaseReference(long foodId) {
         return FirebaseDatabase.getInstance().getReference("/food/" + foodId + "/quantity");
     }
+
+    public DatabaseReference getVoucherDatabaseReference() {
+        return FirebaseDatabase.getInstance().getReference("vouchers");
+    }
+
 }

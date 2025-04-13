@@ -217,6 +217,31 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/define_dimen_10">
+
+            <TextView
+                android:id="@+id/label_payment_voucher"
+                android:layout_width="@dimen/define_dimen_100"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/label_voucher"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/tv_payment_voucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/define_dimen_5"
+                android:layout_toEndOf="@+id/label_payment_voucher"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

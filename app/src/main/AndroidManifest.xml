@@ -2,13 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
 
     <application
         android:name=".MyApplication"
@@ -22,6 +21,19 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".activity.admin.FixVoucherAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.admin.AddVoucherAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.admin.AdminVoucherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.admin.AdminVoucherActivity"
+            android:exported="false"
+            tools:ignore="DuplicateActivity" />
+        <activity
             android:name=".activity.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -30,67 +42,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
         <activity
             android:name=".activity.MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.admin.AdminMainActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.SignInActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.SignUpActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.ChangePasswordActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.admin.AddFoodActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.admin.AddMovieActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.admin.AddCategoryActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.SearchActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.CategoryActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.ConfirmBookingActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.admin.AdminRevenueActivity"
             android:exported="false" />
-
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation"
-            android:stateNotNeeded="true"/>
-
+            android:stateNotNeeded="true"
+            tools:replace="android:screenOrientation" />
         <activity
             android:name=".activity.MovieDetailActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
