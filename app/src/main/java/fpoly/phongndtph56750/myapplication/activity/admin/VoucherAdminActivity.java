@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import fpoly.phongndtph56750.myapplication.R;
-import fpoly.phongndtph56750.myapplication.model.RoomFirebase;
+import fpoly.phongndtph56750.myapplication.model.DateFirebase;
 import fpoly.phongndtph56750.myapplication.model.Voucher;
 
 public class VoucherAdminActivity extends AppCompatActivity {
@@ -38,7 +38,7 @@ public class VoucherAdminActivity extends AppCompatActivity {
         if (currentVoucher != null) {
             edtName.setText(currentVoucher.getNameVoucher());
 
-            List<RoomFirebase> dateList = currentVoucher.getDate();
+            List<DateFirebase> dateList = currentVoucher.getDate();
             if (dateList != null && dateList.size() >= 2) {
                 edtStartDate.setText(dateList.get(0).getTitle());
                 edtEndDate.setText(dateList.get(1).getTitle());
@@ -77,15 +77,16 @@ public class VoucherAdminActivity extends AppCompatActivity {
             return;
         }
 
-        List<RoomFirebase> newDateList = new ArrayList<>();
-        newDateList.add(new RoomFirebase(start));
-        newDateList.add(new RoomFirebase(end));
+        // Sử dụng DateFirebase thay vì RoomFirebase
+        List<DateFirebase> newDateList = new ArrayList<>();
+        newDateList.add(new DateFirebase(start)); // start date
+        newDateList.add(new DateFirebase(end));   // end date
 
         currentVoucher.setNameVoucher(name);
         currentVoucher.setDate(newDateList);
 
         FirebaseDatabase.getInstance().getReference("vouchers")
-                .child(String.valueOf(currentVoucher.getId()))
+                .child(currentVoucher.getId()) // Không cần chuyển thành String, vì id đã là String
                 .setValue(currentVoucher, (error, ref) -> {
                     if (error == null) {
                         Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
@@ -95,4 +96,5 @@ public class VoucherAdminActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

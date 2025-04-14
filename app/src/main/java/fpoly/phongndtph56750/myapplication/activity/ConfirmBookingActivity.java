@@ -685,17 +685,17 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 voucherList.clear();
-                voucherList.add(new Voucher("-1", "Không sử dụng", null, "inactive", 0));
-                // Option mặc định
+                voucherList.add(new Voucher("-1", "Không sử dụng", null, false, 0));  // Thêm option mặc định
 
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    Voucher voucher = data.getValue(Voucher.class);
-                    if (voucher != null && voucher.isStatus()) {
+                    Voucher voucher = data.getValue(Voucher.class);  // Lấy giá trị Voucher từ Firebase
+
+                    if (voucher != null && voucher.isActive()) {  // Sử dụng phương thức isActive() thay vì isStatus()
                         voucherList.add(voucher);
                     }
                 }
 
-                voucherAdapter.notifyDataSetChanged();
+                voucherAdapter.notifyDataSetChanged();  // Cập nhật danh sách sau khi thêm các voucher
             }
 
             @Override

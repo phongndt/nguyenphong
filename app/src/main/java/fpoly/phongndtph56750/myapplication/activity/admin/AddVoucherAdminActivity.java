@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import fpoly.phongndtph56750.myapplication.R;
+import fpoly.phongndtph56750.myapplication.model.DateFirebase;
 import fpoly.phongndtph56750.myapplication.model.RoomFirebase;
 import fpoly.phongndtph56750.myapplication.model.Voucher;
 
@@ -62,16 +63,16 @@ public class AddVoucherAdminActivity extends AppCompatActivity {
             return;
         }
 
-        // Tạo list ngày bắt đầu và kết thúc
-        List<RoomFirebase> dateList = new ArrayList<>();
-        dateList.add(new RoomFirebase(start));
-        dateList.add(new RoomFirebase(end));
+        // Tạo list ngày bắt đầu và kết thúc sử dụng DateFirebase
+        List<DateFirebase> dateList = new ArrayList<>();
+        dateList.add(new DateFirebase(start)); // start date
+        dateList.add(new DateFirebase(end));   // end date
 
         // Tạo voucher mới với mức giảm giá là 0 (hoặc giá trị nào đó bạn muốn)
         String id = UUID.randomUUID().toString();
         int discount = 0; // Mức giảm giá mặc định (có thể thay đổi nếu cần)
 
-        Voucher newVoucher = new Voucher(id, name, dateList, "1", discount); // Thêm tham số discount vào đây
+        Voucher newVoucher = new Voucher(id, name, dateList, false, discount); // Thêm tham số discount vào đây
 
         // Ghi dữ liệu lên Firebase
         FirebaseDatabase.getInstance().getReference("vouchers")
@@ -85,5 +86,6 @@ public class AddVoucherAdminActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 }

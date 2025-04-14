@@ -6,77 +6,55 @@ import java.util.List;
 public class Voucher implements Serializable {
     private String id;
     private String nameVoucher;
-    private List<RoomFirebase> date; // Danh sách các phòng
-    private String status; // Trạng thái voucher (ví dụ: "active", "inactive")
-    private int discount; // Mức giảm giá của voucher (nếu cần thiết)
+    private List<DateFirebase> date;
+    private boolean active;  // Đổi từ status sang active cho rõ ràng
+    private int discount;
 
     // Constructor mặc định
     public Voucher() {
         this.id = "";
         this.nameVoucher = "";
         this.date = null;
-        this.status = "inactive";  // Giá trị mặc định là inactive
-        this.discount = 0;         // Mức giảm giá mặc định là 0
+        this.active = false;  // Giá trị mặc định là không hoạt động
+        this.discount = 0;
     }
 
-    // Constructor với tham số
-    public Voucher(String id, String nameVoucher, List<RoomFirebase> date, String status, int discount) {
+    // Constructor có tham số
+    public Voucher(String id, String nameVoucher, List<DateFirebase> date, boolean active, int discount) {
         this.id = id;
         this.nameVoucher = nameVoucher;
         this.date = date;
-        this.status = status;
+        this.active = active;
         this.discount = discount;
     }
 
-    // Getter và Setter
-    public String getId() {
-        return id;
-    }
+    // Getter và Setter cho id
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    // Getter và Setter cho tên voucher
+    public String getNameVoucher() { return nameVoucher; }
+    public void setNameVoucher(String nameVoucher) { this.nameVoucher = nameVoucher; }
 
-    public String getNameVoucher() {
-        return nameVoucher;
-    }
+    // Getter và Setter cho danh sách ngày (date)
+    public List<DateFirebase> getDate() { return date; }
+    public void setDate(List<DateFirebase> date) { this.date = date; }
 
-    public void setNameVoucher(String nameVoucher) {
-        this.nameVoucher = nameVoucher;
-    }
+    // Getter và Setter cho trạng thái active
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
-    public List<RoomFirebase> getDate() {
-        return date;
-    }
+    // Getter và Setter cho mức giảm giá
+    public int getDiscount() { return discount; }
+    public void setDiscount(int discount) { this.discount = discount; }
 
-    public void setDate(List<RoomFirebase> date) {
-        this.date = date;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
-    // ToString để hiển thị thông tin voucher dễ dàng
+    // Phương thức toString để hiển thị voucher
     @Override
     public String toString() {
         return nameVoucher + " - Giảm " + discount + " VNĐ";
     }
 
-    // Thêm phương thức kiểm tra trạng thái voucher
     public boolean isStatus() {
-        return "active".equals(status);
+        return false;
     }
 }

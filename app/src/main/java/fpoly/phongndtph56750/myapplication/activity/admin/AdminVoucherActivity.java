@@ -2,6 +2,7 @@ package fpoly.phongndtph56750.myapplication.activity.admin;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,45 +27,65 @@ public class AdminVoucherActivity extends AppCompatActivity implements AdminVouc
     private ActivityAdminVoucherAtivityBinding binding;
     private List<Voucher> voucherList = new ArrayList<>();
     private AdminVoucherAdapter voucherAdapter;
+    private Spinner voucherSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Khởi tạo View Binding
         binding = ActivityAdminVoucherAtivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Khởi tạo Adapter
         voucherAdapter = new AdminVoucherAdapter(this, voucherList, this);
+
+        // Thiết lập RecyclerView
         binding.rcvData.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvData.setAdapter(voucherAdapter);
 
+        // Tải dữ liệu voucher từ Firebase
         loadVoucherFromFirebase();
 
-        binding.btnAddVoucher.setOnClickListener(v ->
-                GlobalFunction.startActivity(AdminVoucherActivity.this, AddVoucherAdminActivity.class)
-        );
+        // Xử lý sự kiện khi người dùng nhấn nút Thêm Voucher
+        binding.btnAddVoucher.setOnClickListener(v -> {
+            // Chuyển đến màn hình thêm voucher mới
+            GlobalFunction.startActivity(AdminVoucherActivity.this, AddVoucherAdminActivity.class);
+        });
     }
 
     private void loadVoucherFromFirebase() {
+        // Lấy danh sách voucher từ Firebase
         FirebaseDatabase.getInstance().getReference("vouchers")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // Xóa hết dữ liệu cũ
                         voucherList.clear();
+
+                        // Thêm voucher mặc định "Không sử dụng"
+                        voucherList.add(new Voucher("-1", "Không sử dụng", null, false, 0));
+
+                        // Duyệt qua các voucher trong Firebase và thêm vào danh sách
                         for (DataSnapshot data : snapshot.getChildren()) {
                             Voucher v = data.getValue(Voucher.class);
-                            if (v != null) {
+                            if (v != null && v.isStatus()) { // Kiểm tra voucher đang hoạt động
                                 voucherList.add(v);
                             }
                         }
+
+                        // Cập nhật lại adapter
                         voucherAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle error
+                        // Xử lý lỗi nếu có
+                        Toast.makeText(AdminVoucherActivity.this, "Lỗi tải dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
     private void deleteVoucherItem(Voucher voucher) {
         new AlertDialog.Builder(this)

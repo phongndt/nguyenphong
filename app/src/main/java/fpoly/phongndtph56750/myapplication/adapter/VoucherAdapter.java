@@ -6,9 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -19,11 +26,13 @@ public class VoucherAdapter extends ArrayAdapter<Voucher> {
 
     private Context context;
     private List<Voucher> vouchers;
+    private DatabaseReference databaseReference;
 
     public VoucherAdapter(@NonNull Context context, int resource, @NonNull List<Voucher> objects) {
         super(context, resource, objects);
         this.context = context;
         this.vouchers = objects;
+        this.databaseReference = FirebaseDatabase.getInstance().getReference("vouchers");
     }
 
     @NonNull
@@ -49,9 +58,34 @@ public class VoucherAdapter extends ArrayAdapter<Voucher> {
                 tvVoucher.setText(voucher.getNameVoucher() + " (-" + voucher.getDiscount() + "đ)");
             }
         }
-
-
         return view;
+    }
+
+    // Phương thức để lấy dữ liệu từ Firebase và cập nhật list vouchers
+    public void fetchVouchersFromFirebase() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                vouchers.clear();
+                vouchers.add(new Voucher("-1", "Không sử dụng", null, false, 0)); // Option mặc định
+
+                // Duyệt qua các vouchers trong Firebase
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Voucher voucher = data.getValue(Voucher.class);
+                    if (voucher != null) {
+                        vouchers.add(voucher);
+                    }
+                }
+
+                // Cập nhật lại adapter sau khi lấy dữ liệu
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context, "Lỗi khi tải dữ liệu voucher", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

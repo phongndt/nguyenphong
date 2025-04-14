@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import fpoly.phongndtph56750.myapplication.R;
+import fpoly.phongndtph56750.myapplication.model.DateFirebase;
 import fpoly.phongndtph56750.myapplication.model.RoomFirebase;
 import fpoly.phongndtph56750.myapplication.model.Voucher;
 
@@ -48,7 +49,7 @@ public class AdminVoucherAdapter extends RecyclerView.Adapter<AdminVoucherAdapte
         String start = "–";
         String end = "–";
 
-        List<RoomFirebase> dates = voucher.getDate();
+        List<DateFirebase> dates = voucher.getDate();
         if (dates != null) {
             if (dates.size() > 0 && dates.get(0).getTitle() != null) {
                 start = dates.get(0).getTitle().trim();
