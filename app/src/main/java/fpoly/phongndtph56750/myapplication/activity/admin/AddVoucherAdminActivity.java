@@ -2,6 +2,7 @@ package fpoly.phongndtph56750.myapplication.activity.admin;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,11 +14,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import fpoly.phongndtph56750.myapplication.R;
 import fpoly.phongndtph56750.myapplication.model.DateFirebase;
-import fpoly.phongndtph56750.myapplication.model.RoomFirebase;
 import fpoly.phongndtph56750.myapplication.model.Voucher;
 
 public class AddVoucherAdminActivity extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class AddVoucherAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_voucher_admin); // Sử dụng đúng layout thêm
+        setContentView(R.layout.activity_add_voucher_admin);
 
         edtName = findViewById(R.id.edt_name);
         edtStartDate = findViewById(R.id.tv_start_date);
@@ -41,16 +42,17 @@ public class AddVoucherAdminActivity extends AppCompatActivity {
 
     private void showDatePickerDialog(EditText target) {
         Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(
-                this,
-                (DatePicker view, int year, int month, int dayOfMonth) -> {
-                    String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(this,
+                (DatePicker view, int y, int m, int d) -> {
+                    String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", d, m + 1, y);
                     target.setText(selectedDate);
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        ).show();
+                }, year, month, day);
+
+        dialog.show();
     }
 
     private void addVoucher() {
@@ -63,29 +65,35 @@ public class AddVoucherAdminActivity extends AppCompatActivity {
             return;
         }
 
-        // Tạo list ngày bắt đầu và kết thúc sử dụng DateFirebase
+        // Tạo danh sách ngày
         List<DateFirebase> dateList = new ArrayList<>();
-        dateList.add(new DateFirebase(start)); // start date
-        dateList.add(new DateFirebase(end));   // end date
+        dateList.add(new DateFirebase(start));
+        dateList.add(new DateFirebase(end));
 
-        // Tạo voucher mới với mức giảm giá là 0 (hoặc giá trị nào đó bạn muốn)
+        // Tạo voucher mới
         String id = UUID.randomUUID().toString();
-        int discount = 0; // Mức giảm giá mặc định (có thể thay đổi nếu cần)
+        boolean status = true; // cần để hiển thị ở AdminVoucherActivity
+        int discount = 0; // Bạn có thể thêm input sau
 
-        Voucher newVoucher = new Voucher(id, name, dateList, false, discount); // Thêm tham số discount vào đây
+        Voucher newVoucher = new Voucher(id, name, dateList, status, discount);
 
-        // Ghi dữ liệu lên Firebase
+        // Ghi vào Firebase
         FirebaseDatabase.getInstance().getReference("vouchers")
                 .child(id)
-                .setValue(newVoucher, (error, ref) -> {
-                    if (error == null) {
+                .setValue(newVoucher)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("AddVoucher", "Thêm thành công");
                         Toast.makeText(this, "Thêm voucher thành công", Toast.LENGTH_SHORT).show();
-                        finish(); // Quay lại màn voucher
+                        finish();
                     } else {
+                        Log.e("AddVoucher", "Thêm thất bại", task.getException());
                         Toast.makeText(this, "Lỗi khi thêm voucher", Toast.LENGTH_SHORT).show();
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("AddVoucher", "Firebase lỗi", e);
+                    Toast.makeText(this, "Firebase lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
-
-
 }
