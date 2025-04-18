@@ -33,35 +33,45 @@ public class VoucherAdapter extends ArrayAdapter<Voucher> {
         this.context = context;
         this.vouchers = objects;
         this.databaseReference = FirebaseDatabase.getInstance().getReference("vouchers");
+
+        // Optional: tự động fetch luôn khi adapter được tạo
+        fetchVouchersFromFirebase();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return createView(position, parent);
+        return createView(position, convertView, parent);
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return createView(position, parent);
+        return createView(position, convertView, parent);
     }
 
-    private View createView(int position, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_voucher_spinner, parent, false);
-        TextView tvVoucher = view.findViewById(R.id.tv_voucher_item);
+    private View createView(int position, View convertView, ViewGroup parent) {
+        // Sửa lỗi: chỉ inflate nếu convertView null
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_voucher_spinner, parent, false);
+        }
+
+        TextView tvVoucher = convertView.findViewById(R.id.tv_voucher_item);
+        TextView tvDiscount = convertView.findViewById(R.id.tv_voucher_discount);
         Voucher voucher = vouchers.get(position);
 
         if (voucher != null) {
-            if (voucher.getId().equals("-1")) {
+            if ("-1".equals(voucher.getId())) {
                 tvVoucher.setText("Không sử dụng");
+                tvDiscount.setText(""); // Ẩn phần giảm giá cho option mặc định
             } else {
-                tvVoucher.setText(voucher.getNameVoucher() + " (-" + voucher.getDiscount() + "đ)");
+                tvVoucher.setText(voucher.getNameVoucher());
+                tvDiscount.setText("-" + voucher.getDiscount() + "đ");
             }
         }
-        return view;
+        return convertView;
     }
 
-    // Phương thức để lấy dữ liệu từ Firebase và cập nhật list vouchers
+    // Lấy danh sách voucher từ Firebase
     public void fetchVouchersFromFirebase() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -69,15 +79,13 @@ public class VoucherAdapter extends ArrayAdapter<Voucher> {
                 vouchers.clear();
                 vouchers.add(new Voucher("-1", "Không sử dụng", null, false, 0)); // Option mặc định
 
-                // Duyệt qua các vouchers trong Firebase
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Voucher voucher = data.getValue(Voucher.class);
-                    if (voucher != null) {
+                    if (voucher != null && voucher.isActive()) { // Chỉ thêm nếu voucher còn hiệu lực
                         vouchers.add(voucher);
                     }
                 }
 
-                // Cập nhật lại adapter sau khi lấy dữ liệu
                 notifyDataSetChanged();
             }
 
@@ -88,4 +96,3 @@ public class VoucherAdapter extends ArrayAdapter<Voucher> {
         });
     }
 }
-

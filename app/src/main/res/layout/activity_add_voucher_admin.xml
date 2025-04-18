@@ -64,7 +64,7 @@
                 android:textSize="@dimen/text_size_small"
                 android:focusable="false"
                 android:clickable="true"
-                 />
+                />
 
             <EditText
                 android:id="@+id/tv_end_date"
@@ -78,7 +78,7 @@
                 android:textSize="@dimen/text_size_small"
                 android:focusable="false"
                 android:clickable="true"
-                 />
+                />
 
 
 

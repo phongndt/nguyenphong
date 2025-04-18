@@ -229,6 +229,7 @@
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
+
             <Spinner
                 android:id="@+id/spn_voucher"
                 android:layout_width="match_parent"
@@ -236,6 +237,24 @@
                 android:layout_marginTop="@dimen/define_dimen_5"
                 android:background="@color/transparent"
                 android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/tv_voucher_selected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Không áp dụng mã giảm"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
             <Button
