@@ -687,11 +687,11 @@ public class ConfirmBookingActivity extends AppCompatActivity {
           //  tvPaymentVoucher.setText("Áp dụng mã giảm giá: " + mVoucherSelected.getNameVoucher());
         } else {
             tvVoucherSelected.setText("Không áp dụng mã giảm giá");
-          //  tvPaymentVoucher.setText("Không áp dụng mã giảm giá");
+           // tvPaymentVoucher.setText("Không áp dụng mã giảm giá");
         }
 
         // Hiển thị tổng tiền
-        tvTotalPrice.setText("Tổng tiền: " + total + " VNĐ");
+       // tvTotalPrice.setText("Tổng tiền: " + total + " VNĐ");
     }
 
     // Tính tổng tiền sau khi tính đến voucher
@@ -719,13 +719,12 @@ public class ConfirmBookingActivity extends AppCompatActivity {
 
         int total = priceMovie + priceFoodDrink;  // Tổng tiền ban đầu
 
-        // Nếu có voucher được chọn, áp dụng giảm giá
+        // Áp dụng giảm 20% nếu có voucher
         if (mVoucherSelected != null) {
-            total -= mVoucherSelected.getDiscount();
-            if (total < 0) total = 0;  // Đảm bảo tổng tiền không bị âm
+            total = (int) (total * 0.8);  // Giảm 20%
         }
 
-        return total;  // Trả về tổng tiền
+        return Math.max(total, 0);  // Đảm bảo không bị âm
     }
 
     @Override
